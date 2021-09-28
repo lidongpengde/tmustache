@@ -2,7 +2,7 @@
 // JMustache - A Java implementation of the Mustache templating language
 // http://github.com/samskivert/jmustache/blob/master/LICENSE
 
-package mustache;
+package com.samskivert.mustache;
 
 /**
  * An exception thrown when an error occurs parsing or executing a Mustache template.
