@@ -379,6 +379,12 @@ public class Template {
             throw new MustacheException.Context(
                 "No method or field with name '" + name + "' on line " + line, name, line);
         } else {
+            if (value instanceof List<?> ) {
+                List<?> list = (List<?>)value;
+                if (list.size() == 1) {
+                    return list.get(0);
+                }
+            }
             return value;
         }
     }
