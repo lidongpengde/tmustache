@@ -4,6 +4,8 @@
 
 package com.samskivert.mustache;
 
+import com.google.gson.JsonArray;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -261,15 +263,16 @@ public class Template {
         if (comps[0].equals("*")) {
             List<Object> list = (List<Object>) ctx.data;
             List<Object> datas = new ArrayList<>();
+            JsonArray array = new JsonArray();
             for (int i = 0; i < list.size(); i++) {
                 getValue(ctx, comps[0], line, missingIsNull);
                 Object value = getValueIn(list.get(i),comps[1] , line);
                 if (value !=null && value != NO_FETCHER_FOUND) {
-                    datas.add(getValueIn(list.get(i),comps[1] , line));
+                    array.add(getValueIn(list.get(i),comps[1] , line).toString());
                 }
             }
             start++;
-            data = datas;
+            data = array;
         }else {
              data = getValue(ctx, comps[0], line, missingIsNull);
         }
@@ -289,19 +292,20 @@ public class Template {
             if (comps[ii].equals("*")) {
                 List<Object> list = (List<Object>)data;
                 List<Object> datas = new ArrayList<>();
+                JsonArray array = new JsonArray();
                 int index = ++ii;
                 for (int i = 0; i < list.size(); i++) {
                     Object item = getValueIn(list.get(i),comps[index] , line);
                     if (item instanceof List<?>) {
                         List<Object> items = (List<Object>)item;
                         for (int j = 0; j < items.size(); j++) {
-                            datas.add(items.get(i));
+                            array.add(items.get(i).toString());
                         }
                     }else {
-                        datas.add(item);
+                        array.add(item.toString());
                     }
                 }
-                data = datas;
+                data = array;
             }else {
                 data = getValueIn(data, comps[ii], line);
             }
